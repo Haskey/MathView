@@ -72,7 +72,7 @@ class MathView : WebView {
                     "</head><body><script>var s = '$text';" +
                     "M.parseMath(s);document.body.style.color = \"$textColor\";" +
                     "document.body.style.background = \"$backgroundColor\";" +
-                    "document.body.style.textAlign = \"${textAlign.toString().toLowerCase()}\";" +
+                    "document.body.style.textAlign = \"${textAlign.toString().lowercase()}\";" +
                     "document.write(s);</script></body>",
             "text/html", "UTF-8", null)
 }
