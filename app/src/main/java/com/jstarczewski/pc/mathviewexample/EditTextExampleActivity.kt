@@ -3,23 +3,26 @@ package com.jstarczewski.pc.mathviewexample
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_edit_text_example.*
+import com.jstarczewski.pc.mathviewexample.databinding.ActivityEditTextExampleBinding
 
 class EditTextExampleActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityEditTextExampleBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_text_example)
+        binding = ActivityEditTextExampleBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        mvEditTextExample.textZoom = 70
-        mvEditTextExample.backgroundColor = "#EEEEEE"
+        binding.mvEditTextExample.textZoom = 70
+        binding.mvEditTextExample.backgroundColor = "#EEEEEE"
 
-        btShowEquation?.setOnClickListener {
+        binding.btShowEquation.setOnClickListener {
 
-            mvEditTextExample.text = etEquation.text.toString()
+            binding.mvEditTextExample.text = binding.etEquation.text.toString()
 
         }
-        btShowRecyclerView?.setOnClickListener {
+        binding.btShowRecyclerView.setOnClickListener {
             startActivity(Intent(this, RecyclerViewExampleActivity::class.java))
         }
     }

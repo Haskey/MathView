@@ -5,15 +5,18 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.match_item.view.*
+import com.jstarczewski.pc.mathviewexample.databinding.ActivityRecyclerViewExampleBinding
+import com.jstarczewski.pc.mathviewexample.databinding.MatchItemBinding
 
 class RecyclerViewExampleActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityRecyclerViewExampleBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recycler_view_example)
+        binding = ActivityRecyclerViewExampleBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         val equations: ArrayList<Equation> = arrayListOf()
@@ -25,53 +28,37 @@ class RecyclerViewExampleActivity : AppCompatActivity() {
         equations.add(Equation("Energia potencjalna sprezystosci", "$\\E_{ps}={k*x^2}/2$, $\\[J]$ <br> $\\E_{ps}$ energia potencjalna sprężystości, $\\k$ współczynnik sprężystości $\\[N/m]$, $\\\\x$ wychylenie/wydłużenie sprężyny"))
         equations.add(Equation("Zasada zachowania energii", "W izolowanym układzie, całkowita energia mechaniczna nie zmienia sie."))
 
-        findViewById<RecyclerView>(R.id.rvTest).apply {
-
+        binding.rvTest.apply {
             setHasFixedSize(true)
-            layoutManager =
-                LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context)
             adapter = MathTestAdapter(equations)
-
         }
-
-
-
     }
 }
 
 
 class MathTestAdapter(private var equations: ArrayList<Equation>) : RecyclerView.Adapter<MathTestAdapter.ViewHolder>() {
 
-    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val tvEquationTitle = view.tvTitle!!
-        val mvEquation = view.mvTest!!
+    class ViewHolder(val binding: MatchItemBinding) : RecyclerView.ViewHolder(binding.root)
 
-    }
-
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): MathTestAdapter.ViewHolder {
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.match_item, viewGroup, false)
-        val holder: MathTestAdapter.ViewHolder = ViewHolder(view)
-        holder.mvEquation.apply {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+        val binding = MatchItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val holder = ViewHolder(binding)
+        holder.binding.mvTest.apply {
             textColor = "black"
             backgroundColor = "#EEEEEE"
             textZoom = 70
         }
-        return ViewHolder(view)
-
-
+        return holder
     }
 
     override fun getItemCount(): Int {
         return equations.size
     }
 
-    override fun onBindViewHolder(viewHolder: MathTestAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
-        viewHolder.tvEquationTitle.text = equations[position].title
-        viewHolder.mvEquation.text = equations[position].equation
-
-
+        viewHolder.binding.tvTitle.text = equations[position].title
+        viewHolder.binding.mvTest.text = equations[position].equation
     }
-
-
 }
